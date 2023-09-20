@@ -25,5 +25,5 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker build -t your-dockerhub-username/hello-world-app:${{ github.sha }} .
-        docker push your-dockerhub-username/hello-world-app:${{ github.sha }}
+        docker build -t cooler665/hello-world-app:${{ github.sha }} .
+        docker push cooler665/hello-world-app:${{ github.sha }}

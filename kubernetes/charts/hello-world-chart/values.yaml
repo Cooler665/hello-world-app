@@ -37,8 +37,8 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  port: 80
-  targetPort: 8080
+  port: 443
+  targetPort: 443
   type: LoadBalancer
 
 ingress:

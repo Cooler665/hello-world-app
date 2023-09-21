@@ -38,11 +38,6 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           env:  # <--- Новый раздел
-            - name: KAFKA_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: my-kafka-user-passwords
-                  key: user1
             - name: KAFKA_PASSWORD
               valueFrom:
                 secretKeyRef:

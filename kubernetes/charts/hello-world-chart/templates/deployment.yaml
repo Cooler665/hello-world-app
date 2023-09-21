@@ -47,7 +47,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: my-kafka-user-passwords
-                  key: bzQ5NGd2TEN5MQ==
+                  key: client-passwords
           livenessProbe:
             httpGet:
               path: /hello

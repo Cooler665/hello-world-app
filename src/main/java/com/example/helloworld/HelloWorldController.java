@@ -1,5 +1,7 @@
 package com.example.helloworld;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloWorldController {
 
+    private static final Logger logger = LoggerFactory.getLogger(HelloWorldController.class);
+
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
@@ -15,11 +19,18 @@ public class HelloWorldController {
     public String hello() {
         try {
             // Логируем успешное сообщение
-            System.out.println("Hello, world!");
-            kafkaTemplate.send("hello-topic", "Hello, world!");
+            logger.info("Hello, world!");
+
+            kafkaTemplate.send("hello-topic", "Hello, world!")
+                .addCallback(
+                    success -> logger.info("Message sent successfully"),
+                    failure -> logger.error("Message sending failed", failure)
+                );
 
             return "Hello, world!";
         } catch (Exception e) {
+            // Логируем исключение
+            logger.error("An error occurred", e);
             // Отправляем ошибку в Kafka
             sendErrorToKafka(e);
 
@@ -29,6 +40,10 @@ public class HelloWorldController {
 
     public void sendErrorToKafka(Exception e) {
         String errorMessage = "Error occurred: " + e.getMessage();
-        kafkaTemplate.send("error-topic", errorMessage);
+        kafkaTemplate.send("error-topic", errorMessage)
+            .addCallback(
+                success -> logger.info("Error message sent successfully"),
+                failure -> logger.error("Error message sending failed", failure)
+            );
     }
 }

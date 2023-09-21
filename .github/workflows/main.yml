@@ -54,5 +54,5 @@ jobs:
   
     - name: Deploy to Kubernetes with Helm
       run: |
-        helm upgrade --install hello-world-release kubernetes/charts/hello-world-chart --set image.tag=${{ github.sha }}
+        helm upgrade --install hello-world-app kubernetes/charts/hello-world-chart --set image.tag=${{ github.sha }}
 

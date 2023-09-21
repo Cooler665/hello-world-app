@@ -37,6 +37,17 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          env:  # <--- Новый раздел
+            - name: KAFKA_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: my-kafka-user-passwords
+                  key: user1
+            - name: KAFKA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-kafka-user-passwords
+                  key: bzQ5NGd2TEN5MQ==
           livenessProbe:
             httpGet:
               path: /hello
@@ -51,6 +62,7 @@ spec:
             periodSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

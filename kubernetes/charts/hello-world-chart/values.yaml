@@ -76,6 +76,19 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+env:
+  KAFKA_USERNAME:
+    valueFrom:
+      secretKeyRef:
+        name: my-kafka-user-passwords
+        key: system-user-password
+  KAFKA_PASSWORD:
+    valueFrom:
+      secretKeyRef:
+        name: my-kafka-user-passwords
+        key: client-passwords
+
+
 nodeSelector: {}
 
 tolerations: []

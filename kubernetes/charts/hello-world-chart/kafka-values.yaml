@@ -14,15 +14,6 @@ image:
 brokers:
   heapOpts: "-Xmx1024m -Xms512m"
 
-#auth:
-  #clientProtocol: sasl
-  #interBrokerProtocol: sasl
-  #saslMechanisms: SCRAM-SHA-256
-  #jaas:
-   # clientUser: user1
-  #  clientPassword: KAFKA_PASSWORD  # этот пароль будет заменен на значение из Secret
- # rbac:
-#    create: true
 
 service:
   type: LoadBalancer
@@ -35,3 +26,12 @@ topics:
   - name: error-topic
     partitions: 1
     replicationFactor: 1
+
+auth:
+  clientProtocol: sasl
+  interBrokerProtocol: sasl
+  saslMechanisms: scram-sha-256
+  jaas:
+    clientUser: user1
+    clientPassword: $(kubectl get secret my-kafka-user-passwords --namespace default -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1)"
+

@@ -21,7 +21,7 @@ public class HelloWorldController {
             // Логируем успешное сообщение
             logger.info("Hello, world!");
 
-            kafkaTemplate.send("hello-topic", "Hello, world!")
+            kafkaTemplate.send("hello-t", "Hello, world!")
                 .addCallback(
                     success -> logger.info("Message sent successfully"),
                     failure -> logger.error("Message sending failed", failure)

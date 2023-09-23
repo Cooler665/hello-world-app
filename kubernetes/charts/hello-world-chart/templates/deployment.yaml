@@ -37,12 +37,6 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          env:  # <--- Новый раздел
-          - name: KAFKA_PASSWORD
-            valueFrom: 
-              secretKeyRef:
-                name: {{ .Values.env.KAFKA_PASSWORD.valueFrom.secretKeyRef.name }}
-                key: {{ .Values.env.KAFKA_PASSWORD.valueFrom.secretKeyRef.key }}
           livenessProbe:
             httpGet:
               path: /hello

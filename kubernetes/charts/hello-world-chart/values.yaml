@@ -76,12 +76,20 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256M"
+  limits:
+    cpu: "1000m"
+    memory: "256M"
+
 kafka:
   bootstrapServers: "my-kafka.default.svc.cluster.local:9092"
   consumerGroupId: "my-group"
   securityProtocol: "PLAINTEXT"
-  username: "my-user"
-  password: "my-password"
+  username: "kafkauser"
+  password: "p@ssvv0rd"
   errorTopic: "error-topic"
   mainTopic: "hello-topic"
 

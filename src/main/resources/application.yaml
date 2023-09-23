@@ -10,5 +10,3 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     properties:
       security.protocol: PLAINTEXT
-      sasl.mechanism: PLAIN
-      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="kafkauser" password="P@ssvv0rd";

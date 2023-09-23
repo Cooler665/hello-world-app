@@ -19,10 +19,20 @@ service:
   type: LoadBalancer
   port: 9092
 
+authorizerClassName: "kafka.security.authorizer.AclAuthorizer"
+
 auth:
-  clientProtocol: plaintext
+  clientProtocol: sasl
+  externalClientProtocol: sasl
   interBrokerProtocol: plaintext
-  saslMechanisms: scram-sha-256
+  sasl:
+    mechanisms: plain,scram-sha-256,scram-sha-512
+    interBrokerMechanism: plain
+    jaas:
+      clientUsers:
+        - kafkauser
+      clientPasswords:
+        - P@ssvv0rd
 
 
 topics:
@@ -34,19 +44,4 @@ topics:
     partitions: 1
     replicationFactor: 1
     # Add any other topic-level configurations you need here
-users:
-  - name: kafkauser
-    password: p@ssvv0rd
-    acls:
-      - resourceType: topic
-        resourceName: hello-topic
-        patternType: literal
-        host: "*"
-        operation: write
-        permissionType: allow
-      - resourceType: topic
-        resourceName: error-topic
-        patternType: literal
-        host: "*"
-        operation: write
-        permissionType: allow
+

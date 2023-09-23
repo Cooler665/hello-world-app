@@ -76,13 +76,14 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-env:
-  KAFKA_PASSWORD:
-    valueFrom:
-      secretKeyRef:
-        name: my-kafka-user-passwords
-        key: client-passwords
-
+kafka:
+  bootstrapServers: "my-kafka.default.svc.cluster.local:9092"
+  consumerGroupId: "my-group"
+  securityProtocol: "PLAINTEXT"
+  username: "my-user"
+  password: "my-password"
+  errorTopic: "error-topic"
+  mainTopic: "hello-topic"
 
 nodeSelector: {}
 

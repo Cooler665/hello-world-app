@@ -19,19 +19,34 @@ service:
   type: LoadBalancer
   port: 9092
 
+auth:
+  clientProtocol: plaintext
+  interBrokerProtocol: plaintext
+  saslMechanisms: scram-sha-256
+
+
 topics:
   - name: hello-topic
     partitions: 1
     replicationFactor: 1
+    # Add any other topic-level configurations you need here
   - name: error-topic
     partitions: 1
     replicationFactor: 1
-
-auth:
-  clientProtocol: sasl
-  interBrokerProtocol: sasl
-  saslMechanisms: scram-sha-256
-  jaas:
-    clientUser: user1
-    clientPassword: $(kubectl get secret my-kafka-user-passwords --namespace default -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1)"
-
+    # Add any other topic-level configurations you need here
+users:
+  - name: kafkauser
+    password: p@ssvv0rd
+    acls:
+      - resourceType: topic
+        resourceName: hello-topic
+        patternType: literal
+        host: "*"
+        operation: write
+        permissionType: allow
+      - resourceType: topic
+        resourceName: error-topic
+        patternType: literal
+        host: "*"
+        operation: write
+        permissionType: allow

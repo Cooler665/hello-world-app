@@ -18,7 +18,7 @@ public class HelloWorldController {
     @GetMapping("/hello")
     public String hello() {
         try {
-            // Логируем успешное сообщение
+            // Loging success message
             logger.info("Hello, world!");
 
             kafkaTemplate.send("hello-topic", "Hello, world!")
@@ -29,9 +29,9 @@ public class HelloWorldController {
 
             return "Hello, world!";
         } catch (Exception e) {
-            // Логируем исключение
+            // loging exeption
             logger.error("An error occurred", e);
-            // Отправляем ошибку в Kafka
+            // send message to kafka
             sendErrorToKafka(e);
 
             return "An error occurred";

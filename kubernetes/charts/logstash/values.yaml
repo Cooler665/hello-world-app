@@ -118,16 +118,11 @@ extraEnvVarsCM: ""
 ## @param input [string] Input Plugins configuration
 ## ref: https://www.elastic.co/guide/en/logstash/current/input-plugins.html
 ##
-input: |-
-  # udp {
-  #   port => 1514
-  #   type => syslog
-  # }
-  # tcp {
-  #   port => 1514
-  #   type => syslog
-  # }
-  http { port => 8080 }
+input: |
+    kafka { 
+        bootstrap_servers => "my-kafka.default.svc.cluster.local:9092"
+        topics => ["hello-topic","error-topic"]
+    }
 ## @param filter Filter Plugins configuration
 ## ref: https://www.elastic.co/guide/en/logstash/current/filter-plugins.html
 ## e.g:
@@ -143,17 +138,11 @@ filter: ""
 ## @param output [string] Output Plugins configuration
 ## ref: https://www.elastic.co/guide/en/logstash/current/output-plugins.html
 ##
-output: |-
-  # elasticsearch {
-  #   hosts => ["${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"]
-  #   manage_template => false
-  #   index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
-  # }
-  # gelf {
-  #   host => "${GRAYLOG_HOST}"
-  #   port => ${GRAYLOG_PORT}
-  # }
-  stdout {}
+output: |
+    elasticsearch {
+        hosts => ["elasticsearch:9200"]
+        index => "my-index"
+    }
 ## @param existingConfiguration Name of existing ConfigMap object with the Logstash configuration (`input`, `filter`, and `output` will be ignored).
 ##
 existingConfiguration: ""
